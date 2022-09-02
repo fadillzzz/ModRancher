@@ -1,3 +1,5 @@
 *.sdf
 *.user
 .vs/
+Debug/
+Release/
