@@ -29,6 +29,7 @@
 #include <cstdint>
 #include <cstdlib>
 #include <ctime>
+#include "test_cocos.h"
 
 // We are not including 'WinGDI.h' and 'gl.h', so the
 // required types must be redefined in this source file.
@@ -741,7 +742,14 @@ GLFUNC_3_WRET(GLboolean, glAreTexturesResident, GLsizei, n, const GLuint *, text
 GLFUNC_0(glEnd);
 GLFUNC_0(glEndList);
 GLFUNC_0(glFinish);
-GLFUNC_0(glFlush);
+//GLFUNC_0(glFlush);
+GLPROXY_EXTERN void GLPROXY_DECL glFlush()
+{
+    static GLProxy::TGLFunc<void> TGLFUNC_DECL(glFlush);
+    TGLFUNC_CALL(glFlush);
+    //testing();
+    //testImgui();
+}
 GLFUNC_0(glInitNames);
 GLFUNC_0(glLoadIdentity);
 GLFUNC_0(glPopAttrib);
@@ -750,7 +758,13 @@ GLFUNC_0(glPopMatrix);
 GLFUNC_0(glPopName);
 GLFUNC_0(glPushMatrix)
 GLFUNC_1(glArrayElement, GLint, i);
-GLFUNC_1(glBegin, GLenum, mode);
+// GLFUNC_1(glBegin, GLenum, mode);
+GLPROXY_EXTERN void GLPROXY_DECL glBegin(GLenum mode)              
+{                                                            
+    static GLProxy::TGLFunc<void, GLenum> TGLFUNC_DECL(glBegin); 
+    TGLFUNC_CALL(glBegin, mode);
+    setVolume();
+}
 GLFUNC_1(glCallList, GLuint, list);
 GLFUNC_1(glClear, GLbitfield, mask);
 GLFUNC_1(glClearDepth, GLclampd, depth);
