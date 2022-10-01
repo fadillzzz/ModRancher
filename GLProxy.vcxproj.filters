@@ -62,7 +62,7 @@
     <ClCompile Include="imgui\backends\imgui_impl_glfw.cpp">
       <Filter>Source Files\imgui\backends</Filter>
     </ClCompile>
-    <ClCompile Include="test_cocos.cpp">
+    <ClCompile Include="loader.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="imgui\imgui_demo.cpp">
@@ -94,7 +94,7 @@
     <ClInclude Include="imgui\backends\imgui_impl_glfw.h">
       <Filter>Header Files\imgui\backends</Filter>
     </ClInclude>
-    <ClInclude Include="test_cocos.h">
+    <ClInclude Include="loader.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="GLFW\glfw3.h">
