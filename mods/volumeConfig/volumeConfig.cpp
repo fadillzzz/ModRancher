@@ -120,8 +120,8 @@ extern "C" {
 
 			WriteProcessMemory(proc, (LPVOID)defaultSfx, &config.sfxVolume, 4, &b);
 
-			DWORD old_protect;
-			VirtualProtect((void*)hookAddr, 6, PAGE_EXECUTE_READWRITE, &old_protect);
+			DWORD oldProtect;
+			VirtualProtect((void*)hookAddr, 6, PAGE_EXECUTE_READWRITE, &oldProtect);
 			*hookAddr = 0xE9;
 			*(DWORD*)(hookAddr + 1) = (DWORD)&setFMVolume - ((DWORD)hookAddr + 5);
 			*(hookAddr + 5) = 0x90;
