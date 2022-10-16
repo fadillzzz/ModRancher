@@ -8,4 +8,6 @@ typedef DWORD Director;
 typedef Size(__thiscall* GetVisibleSize)(DWORD director);
 typedef const Size& (__thiscall* GetWinSize)(DWORD director);
 
-DWORD addresses960[7] = { 0x27BE6,  0xC6476, 0xC72F6, 0xC9CFF, 0xCE0F5, 0x1B9F9C, 0x1D3088 };
+static DWORD widthAddress = baseAddr + 0xCC88A;
+static DWORD overlayControlHook = baseAddr + 0xC2AAA;
+static DWORD hideOverlayControlReturn = baseAddr + 0xC2AB0;

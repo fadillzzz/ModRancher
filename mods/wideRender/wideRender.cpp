@@ -1,6 +1,5 @@
 #include "pch.h"
 #include "widerender.h"
-#include <fstream>
 
 BOOL APIENTRY DllMain( HMODULE hModule,
                        DWORD  ul_reason_for_call,
@@ -10,32 +9,28 @@ BOOL APIENTRY DllMain( HMODULE hModule,
     return TRUE;
 }
 
+__declspec(naked) void hideOverlayControl()
+{
+	__asm {
+		mov eax, 4
+		mov DWORD PTR[ebx + 0x604], eax
+		jmp hideOverlayControlReturn
+	}
+}
+
 extern "C" {
 	__declspec(dllexport) extern void InitializeEarly()
 	{
 		const auto proc = GetCurrentProcess();
 
-		std::ofstream log("size.txt");
+		DWORD oldProtect;
+		VirtualProtect((void*)overlayControlHook, 6, PAGE_EXECUTE_READWRITE, &oldProtect);
+		*(DWORD*)overlayControlHook = 0xE9;
+		*(DWORD*)(overlayControlHook + 1) = (DWORD)&hideOverlayControl - (overlayControlHook + 5);
+		*(char*)(overlayControlHook + 5) = 0x90;
 
-
-		for (auto address : addresses960)
-		{
-			SIZE_T b;
-			float newVal = 1280.0f;
-			address = baseAddr + address;
-			float oldVal;
-			ReadProcessMemory(proc, (LPVOID) address, &oldVal, 4, &b);
-			log << oldVal << std::endl;
-			//WriteProcessMemory(proc, (LPVOID) address, &newVal, 4, &b);
-		}
-
-		log.flush();
-		log.close();
-
-
-		DWORD gameWidthAddr = baseAddr + 0xCC88A;
-		SIZE_T b;
 		float val = 426.66667f;
-		WriteProcessMemory(proc, (LPVOID) gameWidthAddr, &val, 4, &b);
+		SIZE_T b;
+		WriteProcessMemory(proc, (LPVOID) widthAddress, &val, 4, &b);
 	}
 }
