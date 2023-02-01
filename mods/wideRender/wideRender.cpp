@@ -12,8 +12,12 @@ BOOL APIENTRY DllMain( HMODULE hModule,
 __declspec(naked) void hideOverlayControl()
 {
 	__asm {
-		mov eax, 4
+		mov eax, 5
+#if MRDX == 1
 		mov DWORD PTR[ebx + 0x604], eax
+#else
+		mov DWORD PTR[ebx + 0x614], eax
+#endif
 		jmp hideOverlayControlReturn
 	}
 }
